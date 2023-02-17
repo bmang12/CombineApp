@@ -11,8 +11,6 @@ from io import BytesIO
 from data_prep import *
 from plotting_functions import *
 
-import os
-
 
 def make_pdf(df, club_order, player, date, progress_bar):
 
@@ -31,8 +29,6 @@ def make_pdf(df, club_order, player, date, progress_bar):
     # pdf.oversized_images = "WARN"
 
     ### Title Page ###
-    files = [f for f in os.listdir('.') if os.path.isfile(f)]
-    print(files)
     pdf.set_page_background('Background_full.jpg')
     pdf.add_page('L')
 
