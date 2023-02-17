@@ -8,7 +8,7 @@ from matplotlib import pyplot as plt
 from fpdf import FPDF
 from io import BytesIO
 
-from st_aggrid import AgGrid, GridUpdateMode, JsCode, ColumnsAutoSizeMode
+from st_aggrid import AgGrid, GridUpdateMode, ColumnsAutoSizeMode
 from st_aggrid.grid_options_builder import GridOptionsBuilder
 
 from data_prep import *
