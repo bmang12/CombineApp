@@ -74,7 +74,7 @@ if df_tm is not None:
 
     date = str(df_filtered['Date'].unique()[0].strftime('%m-%d-%Y'))
 
-    files = [f for f in os.listdir('.') if os.path.isfile(f)]
+    files = [f for f in os.listdir('.') if os.path.isdir(f)]
     st.selectbox('test', files)
     
     # if len(club_select) > 0:
