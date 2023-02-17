@@ -37,32 +37,48 @@ if df_tm is not None:
     # df_player_filter = df_tm.loc[df_tm['Player'] == player_select]
     # df_player_filter['Date'] = df_player_filter['Date'].astype(str)
  
-    gd = GridOptionsBuilder.from_dataframe(df_tm)
+    # gd = GridOptionsBuilder.from_dataframe(df_tm)
+    # gd.configure_pagination(enabled=True)
+    # gd.configure_default_column(editable=True, groupable=True)
+    # # gd.configure_column('Date', type=['customDateTimeFormat'], custom_format_string='yyyy-MM-dd HH:mm')
+    # gd.configure_selection(selection_mode="multiple", use_checkbox=True)
+    # gridoptions = gd.build()
+    # grid_table = AgGrid(
+    #     df_tm,
+    #     gridOptions=gridoptions,
+    #     update_mode=GridUpdateMode.SELECTION_CHANGED | GridUpdateMode.VALUE_CHANGED,
+    #     theme="streamlit",
+    #     columns_auto_size_mode=ColumnsAutoSizeMode.FIT_CONTENTS
+    # )
+    # sel_row = grid_table['selected_rows']
+    
+    # test_data = grid_table['data']
+    # drop_rows = [row['ShotNo'] for row in sel_row]
+    # df_filtered = test_data.loc[~test_data['ShotNo'].isin(drop_rows)]
+
+    # st.subheader('Raw data')
+    # st.write(df_tm_filter)
+    st.subheader('Trackman Data')
+    # df_sel_row = pd.DataFrame(sel_row)
+    # if not df_sel_row.empty:
+    st.write(df_tm)
+
+    clubs = df_tm.sort_values('ClubIdx')['Club'].unique()
+
+    df_clubs = pd.DataFrame({'Club': clubs})
+    df_clubs[['Model', 'Loft', 'Lie', 'Length', 'Shaft', 'SW', 'Target\nCarry']] = None
+    print(df_clubs)
+    gd = GridOptionsBuilder.from_dataframe(df_clubs)
     gd.configure_pagination(enabled=True)
     gd.configure_default_column(editable=True, groupable=True)
-    # gd.configure_column('Date', type=['customDateTimeFormat'], custom_format_string='yyyy-MM-dd HH:mm')
-    gd.configure_selection(selection_mode="multiple", use_checkbox=True)
     gridoptions = gd.build()
     grid_table = AgGrid(
-        df_tm,
+        df_clubs,
         gridOptions=gridoptions,
         update_mode=GridUpdateMode.SELECTION_CHANGED | GridUpdateMode.VALUE_CHANGED,
         theme="streamlit",
         columns_auto_size_mode=ColumnsAutoSizeMode.FIT_CONTENTS
     )
-    sel_row = grid_table["selected_rows"]
-    
-    test_data = grid_table['data']
-    drop_rows = [row['ShotNo'] for row in sel_row]
-    df_filtered = test_data.loc[~test_data['ShotNo'].isin(drop_rows)]
-
-    # st.subheader('Raw data')
-    # st.write(df_tm_filter)
-    st.subheader('Filtered data')
-    # df_sel_row = pd.DataFrame(sel_row)
-    # if not df_sel_row.empty:
-    st.write(df_filtered)
-
 
 if df_tm is not None:
 
@@ -70,16 +86,16 @@ if df_tm is not None:
     # club_select = st.multiselect(label=' ',
     #                             options=list(df_filtered.sort_values(by=['ClubIdx'])['Club'].unique()))
 
-    player = df_filtered['Player'].unique()[0]
+    player = df_tm['Player'].unique()[0]
 
-    date = str(df_filtered['Date'].unique()[0].strftime('%m-%d-%Y'))
-    
+    date = str(df_tm['Date'].unique()[0].strftime('%m-%d-%Y'))
+
     # if len(club_select) > 0:
     if st.button('Create Report'):
 
         progress_bar = st.progress(0)
 
-        pdf = make_pdf(df_filtered, club_order, player, date, progress_bar)
+        pdf = make_pdf(df_tm, club_order, player, date, progress_bar)
 
         pdf_title = player + ' ' + str(date) + ' ' + 'Report.pdf'
         # pdf.output(pdf_title)
@@ -91,7 +107,6 @@ if df_tm is not None:
                         data=bytes(str(pdf.output(), encoding='latin1'), encoding='latin1'),
                         file_name=pdf_title,
                         mime='application/octet-stream')
-
 
 ## Command line prompts 
 # streamlit run create_dashboard.py
