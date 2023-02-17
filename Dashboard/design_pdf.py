@@ -7,6 +7,7 @@ from fpdf import FPDF
 from fpdf import Align
 from matplotlib import pyplot as plt
 from io import BytesIO
+from PIL import Image
 
 from data_prep import *
 from plotting_functions import *
@@ -29,7 +30,8 @@ def make_pdf(df, club_order, player, date, progress_bar):
     # pdf.oversized_images = "WARN"
 
     ### Title Page ###
-    pdf.set_page_background('Background_full.jpg')
+    background = Image.open('Background_full.jpg')
+    pdf.set_page_background(background)
     pdf.add_page('L')
 
 
