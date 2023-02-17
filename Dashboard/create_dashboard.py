@@ -17,6 +17,8 @@ from design_pdf import *
 
 import base64
 
+import os
+
 st.set_page_config(layout='wide')
 st.title('Combine Report')
 
@@ -72,6 +74,9 @@ if df_tm is not None:
 
     date = str(df_filtered['Date'].unique()[0].strftime('%m-%d-%Y'))
 
+    files = [f for f in os.listdir('.') if os.path.isfile(f)]
+    st.selectbox('test', files)
+    
     # if len(club_select) > 0:
     if st.button('Create Report'):
 
