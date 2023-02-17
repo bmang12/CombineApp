@@ -17,8 +17,8 @@ from design_pdf import *
 
 import base64
 
-st.set_page_config(layout="wide")
-st.title('Demo Page')
+st.set_page_config(layout='wide')
+st.title('Combine Report')
 
 df_tm = None
 
