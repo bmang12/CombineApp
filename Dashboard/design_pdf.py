@@ -177,7 +177,7 @@ def make_pdf(df, club_order, player, date, progress_bar):
     gap_cols = ['Club','Carry\nStdev', 'Carry\nRange', 'Avg Carry\nDistance', 'Gap', 'Theo\nDist',
                 'Diff from\nActual', 'Bend\nLoft', 'Avg\nOffline', 'Bend\nLie']
 
-    fig, ax = make_table(df_gap[gap_cols], size=(5,12), scale=(1,2.5), font=15, gap_colors=gap_colors)
+    fig, ax = make_table(df_gap[gap_cols], size=(7,12), scale=(1,2.5), font=15, gap_colors=gap_colors)
     plt.tight_layout()
     img_buf = BytesIO()
     plt.savefig(img_buf, dpi=200, bbox_inches='tight')
