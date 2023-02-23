@@ -265,6 +265,9 @@ def agg_dfs(df, club_order):
             colors_in_column[7] = '#bcbd22'
         if row['Bend\nLie'] in ['MOVE UPRIGHT', 'MOVE FLAT']:
             colors_in_column[9] = '#bcbd22'
+        if row['Club'] == '':
+            colors_in_column = ['#C5C5C5'] * 10
+        colors_in_column[0] = '#AEAEAE'
         gap_colors.append(colors_in_column)
 
     gap_colors2 = []
