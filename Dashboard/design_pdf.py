@@ -145,7 +145,7 @@ def make_pdf(df, club_order, player, date, progress_bar):
     current_y = pdf.get_y()
 
     # gap table
-    fig, ax = make_table(df_gap[df_gap.columns[:-5]], size=(6,12), scale=(1,2.5), font=15)
+    fig, ax = make_table(df_gap[df_gap.columns[:-5]], size=(6,12), scale=(1,2.5), font=15, gap_colors=gap_colors2)
     plt.tight_layout()
     img_buf = BytesIO()
     plt.savefig(img_buf, dpi=200, bbox_inches='tight')
