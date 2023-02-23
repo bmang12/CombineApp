@@ -42,17 +42,24 @@ def make_table(df, size=(5, 10), title=None, scale=(1, 1.5), font=None, gap_colo
                         colLabels=df.columns, 
                         loc='upper center',
                         cellLoc='center',
-                        cellColours=gap_colors
+                        cellColours=gap_colors, 
+                        colColours=['#AEAEAE'] * len(df.columns)
                         #colWidths=[.25] * len(df_trends.columns)
                         )
     else:
+        colors_in_column = ['w'] * len(df.columns)
+        colors_in_column[0] = '#AEAEAE'
+        header_colors = [colors_in_column] * len(df)
+
         table = ax.table(cellText=df.values, 
                 colLabels=df.columns, 
                 loc='upper center',
-                cellLoc='center'
+                cellLoc='center',
+                cellColours=header_colors,
+                colColours=['#AEAEAE'] * len(df.columns)
                 #colWidths=[.25] * len(df_trends.columns)
                 )
-
+        
     if font is not None:
         table.set_fontsize(font)
     else:
