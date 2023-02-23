@@ -14,7 +14,7 @@ from plotting_functions import *
 
 def make_pdf(df, club_order, player, date, progress_bar):
 
-    df_avg, df_club_specs, df_specs_scatter, df_clubs, df_gap, gap_colors, df_pga_comp, df_pga_plot, df_var_agg = agg_dfs(df, club_order)
+    df_avg, df_club_specs, df_specs_scatter, df_clubs, df_gap, gap_colors, gap_colors2, df_pga_comp, df_pga_plot, df_var_agg = agg_dfs(df, club_order)
 
     sns.set_palette(sns.color_palette(cc.glasbey_category10, n_colors=15))
 
