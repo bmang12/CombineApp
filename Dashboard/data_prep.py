@@ -267,6 +267,14 @@ def agg_dfs(df, club_order):
             colors_in_column[9] = '#bcbd22'
         gap_colors.append(colors_in_column)
 
+    gap_colors2 = []
+    for _, row in df_gap.iterrows():
+        colors_in_column2 = ['w'] * 6
+        if row['Club'] == '':
+            colors_in_column2 = ['#C5C5C5'] * 6
+        colors_in_column2[0] = '#AEAEAE'
+        gap_colors2.append(colors_in_column2)            
+
     pga_carry = {'Driver': 283, 
                  '3Wood': 252, 
                  '4Wood': 259,
@@ -304,4 +312,4 @@ def agg_dfs(df, club_order):
                                                            'ApexHeight': ['mean', np.std, 'min', 'max'],
                                                            'LandAngle': ['mean', np.std, 'min', 'max']})
 
-    return df_avg, df_club_specs, df_specs_scatter, df_clubs, df_gap, gap_colors, df_pga_comp, df_pga_plot, df_var_agg
+    return df_avg, df_club_specs, df_specs_scatter, df_clubs, df_gap, gap_colors, gap_colors2, df_pga_comp, df_pga_plot, df_var_agg
