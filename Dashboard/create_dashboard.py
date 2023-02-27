@@ -25,8 +25,10 @@ df_tm = None
 uploaded_file = st.file_uploader('Choose a file')
 if uploaded_file is not None:
     df_tm, club_order = read_data(uploaded_file)
+    df_filtered = df_tm.copy()
 
 if df_tm is not None:
+
 
     # players = df_tm['Player'].unique()
     # player_select = st.selectbox('Select Player',
@@ -71,8 +73,8 @@ if df_tm is not None:
 
     st.subheader('Club Specs')
     gd = GridOptionsBuilder.from_dataframe(df_specs_entry)
-    gd.configure_pagination(enabled=True)
-    gd.configure_default_column(editable=True, groupable=True)
+    gd.configure_pagination(enabled=False)
+    gd.configure_default_column(editable=True)
     gridoptions = gd.build()
     grid_table = AgGrid(
         df_specs_entry,
@@ -86,29 +88,38 @@ if df_tm is not None:
     st.header('Trackman Data')
     # df_sel_row = pd.DataFrame(sel_row)
     # if not df_sel_row.empty:
-    st.write(df_tm)
+    # st.write(df_tm)
  
     st.subheader('Select Rows to :red[Not] Include')
     cols = ['ShotNo', 'Player', 'Club', 'ClubSpeed', 'AttackAngle', 'ClubPath', 'BallSpeed', 'LaunchAngle',
             'SpinRate', 'CarryDistance', 'CarryOffLine', 'ApexHeight', 'LandAngle']
+
     gd = GridOptionsBuilder.from_dataframe(df_tm[cols])
-    gd.configure_pagination(enabled=True)
-    gd.configure_default_column(editable=True, groupable=True)
+    gd.configure_pagination(enabled=False)
+    gd.configure_default_column(editable=True)
     # gd.configure_column('Date', type=['customDateTimeFormat'], custom_format_string='yyyy-MM-dd HH:mm')
-    gd.configure_selection(selection_mode="multiple", use_checkbox=True)
+    gd.configure_selection(selection_mode='multiple', use_checkbox=True)
+    for col in cols:
+        if col not in ['ShotNo', 'Player', 'Club', 'SpinRate']:
+            gd.configure_column(col, type=['numericColumn', 'numberColumnFilter', 'customNumericFormat'], precision=1)
+    gd.configure_column('SpinRate', type=['numericColumn', 'numberColumnFilter', 'customNumericFormat'], precision=0)
     gridoptions = gd.build()
     grid_table = AgGrid(
         df_tm,
         gridOptions=gridoptions,
         update_mode=GridUpdateMode.SELECTION_CHANGED | GridUpdateMode.VALUE_CHANGED,
         theme="streamlit",
-        columns_auto_size_mode=ColumnsAutoSizeMode.FIT_ALL_COLUMNS_TO_VIEW
+        columns_auto_size_mode=ColumnsAutoSizeMode.FIT_ALL_COLUMNS_TO_VIEW,
+        height=500
     )
     sel_row = grid_table['selected_rows']
     
-    test_data = grid_table['data']
     drop_rows = [row['ShotNo'] for row in sel_row]
-    df_filtered = test_data.loc[~test_data['ShotNo'].isin(drop_rows)]
+    df_filtered = df_tm.loc[~df_tm['ShotNo'].isin(drop_rows)]
+
+    st.subheader('Filtered Data')
+    st.write(df_filtered[cols].style.format(precision=1, subset=cols[3:])\
+                                    .format(precision=0, subset=['SpinRate']))
 
 if df_tm is not None:
 
@@ -116,8 +127,8 @@ if df_tm is not None:
     # club_select = st.multiselect(label=' ',
     #                             options=list(df_filtered.sort_values(by=['ClubIdx'])['Club'].unique()))
 
-    player = df_tm['Player'].unique()[0]
-    date = str(df_tm['Date'].unique()[0].strftime('%m-%d-%Y'))
+    player = df_filtered['Player'].unique()[0]
+    date = str(df_filtered['Date'].unique()[0].strftime('%m-%d-%Y'))
     location = st.session_state.location
     ball = st.session_state.ball
     
@@ -128,7 +139,7 @@ if df_tm is not None:
 
         progress_bar = st.progress(0)
 
-        pdf = make_pdf(df_tm, df_specs, club_order, player, date, location, ball, progress_bar)
+        pdf = make_pdf(df_filtered, df_specs, club_order, player, date, location, ball, progress_bar)
 
         pdf_title = player + ' ' + str(date) + ' ' + 'Report.pdf'
         # pdf.output(pdf_title)

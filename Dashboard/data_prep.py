@@ -32,6 +32,8 @@ def read_data(file):
         df_tm['Low Point'] = np.nan
         df_tm['Use In Stat'] = 'Yes'
 
+        df_tm['Shot No'] = list(range(1, len(df_tm) + 1))
+        
         # executing the function
         df_tm[['Height', 'Side', 'Side.1',
                     'Height.1', 'Side.2', 'Side.3']] = df_tm[['Height', 'Side', 'Side.1',
