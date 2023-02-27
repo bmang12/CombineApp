@@ -159,19 +159,21 @@ def summarize_data(df, club_order):
     # df_avg['Shaft'] = ['Tensei White CK 70TTX', 'Fuji Ventus Black 8x', 'DG X100 X7', 'DG X100 TI', 'DG X100 TI', 
     #                    'DG X100 TI', 'DG X100 TI', 'DG X100 TI', 'DG X100 TI', 'DG X100 TI', 'DG X7', 'DG X7', 'DG X7']
     # df_avg['SW'] = ['D5', 'D3', 'D2', 'D2', 'D2', 'D2', 'D2', 'D2', 'D2', 'D2', 'D3.5', 'D4', 'D4.5']
-    df_avg['Model'] = 'Test Model'
-    df_avg['Loft'] = 10
-    df_avg['Lie'] = 60
-    df_avg['Length'] = 37
-    df_avg['Shaft'] = 'Test Shaft'
-    df_avg['SW'] = 'D2'
-    df_avg['Target\nCarry'] = ''
-    # df_avg['Loft/Length'] = 0
-    df_avg['Loft/Length'] = (df_avg['Loft'] / df_avg['Length'])
+    # df_avg['Model'] = 'Test Model'
+    # df_avg['Loft'] = 10
+    # df_avg['Lie'] = 60
+    # df_avg['Length'] = 37
+    # df_avg['Shaft'] = 'Test Shaft'
+    # df_avg['SW'] = 'D2'
+    # df_avg['Target\nCarry'] = ''
+    # # df_avg['Loft/Length'] = 0
+    # df_avg['Loft/Length'] = (df_avg['Loft'] / df_avg['Length'])
     # df_avg['Loft/Length'] = [0.5822, 0.6315, 0.7333, 0.7837, 0.9315, 1.0555]
 
-    num_cols = ['Loft/Length', 'Club\nSpeed', 'Attack\nAngle', 'Club\nPath', 'Ball\nSpeed', 'Launch\nAngle',
-                'Spin\nRate', 'Spin/LA', 'Carry\nDistance', 'Carry\nOffLine', 'Apex\nHeight', 'Land\nAngle']
+    # num_cols = ['Loft/Length', 'Club\nSpeed', 'Attack\nAngle', 'Club\nPath', 'Ball\nSpeed', 'Launch\nAngle',
+    #             'Spin\nRate', 'Spin/LA', 'Carry\nDistance', 'Carry\nOffLine', 'Apex\nHeight', 'Land\nAngle']
+    num_cols = ['Club\nSpeed', 'Attack\nAngle', 'Club\nPath', 'Ball\nSpeed', 'Launch\nAngle', 'Spin\nRate', 
+                'Spin/LA', 'Carry\nDistance', 'Carry\nOffLine', 'Apex\nHeight', 'Land\nAngle']
     
     df_avg[num_cols] = df_avg[num_cols].astype(float)
 
@@ -181,7 +183,8 @@ def summarize_data(df, club_order):
     return df_avg
 
 
-def agg_dfs(df, club_order):
+
+def agg_dfs(df, df_club_specs, club_order):
     # Overall df filtered by clubs selected for analysis
     clubs = df.sort_values(by=['ClubIdx'])['Club'].unique()
 
@@ -191,14 +194,18 @@ def agg_dfs(df, club_order):
     # create avg dfs
     df_avg = summarize_data(df_clubs, club_order)
 
-    ### NEED TO CHANGE HOW THIS IS DONE WHEN INTEGRATED WITH UI ###
-    club_cols = ['Club', 'Model', 'Loft', 'Lie', 'Length', 
-                'Shaft', 'SW', 'Target\nCarry', 'Loft/Length']
+    # club_cols = ['Club', 'Model', 'Loft', 'Lie', 'Length', 
+    #             'Shaft', 'SW', 'Target\nCarry', 'Loft/Length']
     metric_cols = ['Club', 'Club\nSpeed', 'Attack\nAngle', 'Club\nPath',
                 'Ball\nSpeed', 'Launch\nAngle', 'Spin\nRate', 'Spin/LA', 
                 'Carry\nDistance', 'Carry\nOffLine', 'Apex\nHeight', 'Land\nAngle']
 
-    df_club_specs = df_avg[club_cols]
+    # df_club_specs = df_avg[club_cols]
+
+    for col in df_club_specs.columns:
+        df_club_specs[col] = df_club_specs[col].replace('None', None)
+    df_club_specs[['Loft', 'Lie', 'Length']] = df_club_specs[['Loft', 'Lie', 'Length']].astype(float)
+    df_club_specs['Loft/Length'] = df_club_specs['Loft'] / df_club_specs['Length']
 
     df_avg = df_avg[metric_cols]
     df_specs_scatter = df_avg.copy()
@@ -275,8 +282,11 @@ def agg_dfs(df, club_order):
         colors_in_column2 = ['w'] * 6
         if row['Club'] == '':
             colors_in_column2 = ['#C5C5C5'] * 6
+        if row['Gap'] != '':
+            if float(row['Gap']) < 10:
+                colors_in_column2[5] = '#bcbd22'
         colors_in_column2[0] = '#AEAEAE'
-        gap_colors2.append(colors_in_column2)            
+        gap_colors2.append(colors_in_column2)
 
     pga_carry = {'Driver': 283, 
                  '3Wood': 252, 
