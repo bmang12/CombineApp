@@ -59,7 +59,7 @@ def make_table(df, size=(5, 10), title=None, scale=(1, 1.5), font=None, gap_colo
                 colColours=['#AEAEAE'] * len(df.columns)
                 #colWidths=[.25] * len(df_trends.columns)
                 )
-        
+
     if font is not None:
         table.set_fontsize(font)
     else:
@@ -150,7 +150,7 @@ def scatter_means(df, club_order):
 
 def gap_steps(df, club_order, size=(5,10), title=None):
     # group by club and calculate the means
-    df_means = df.groupby('Club').mean().reset_index()
+    df_means = df.groupby('Club').mean().reset_index().round(1)
 
     # create new index variable and sort
     df_means['ClubIdx'] = df_means['Club'].str.replace(' ', '').map(club_order)
