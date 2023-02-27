@@ -17,8 +17,6 @@ from design_pdf import *
 
 import base64
 
-import os
-
 st.set_page_config(layout='wide')
 st.title('Combine Report')
 
@@ -57,28 +55,60 @@ if df_tm is not None:
     # df_filtered = test_data.loc[~test_data['ShotNo'].isin(drop_rows)]
 
     # st.subheader('Raw data')
-    # st.write(df_tm_filter)
-    st.subheader('Trackman Data')
-    # df_sel_row = pd.DataFrame(sel_row)
-    # if not df_sel_row.empty:
-    st.write(df_tm)
+    st.header('Data Entry')
+
+    col1, col2 = st.columns(2)
+    with col1:
+        st.subheader('Location')
+        st.text_input(' ', '', key='location', label_visibility='collapsed')
+    with col2:
+        st.subheader('Golf Ball Used')
+        st.text_input(' ', '', key='ball', label_visibility='collapsed')
 
     clubs = df_tm.sort_values('ClubIdx')['Club'].unique()
+    df_specs_entry = pd.DataFrame({'Club': clubs})
+    df_specs_entry[['Model', 'Loft', 'Lie', 'Length', 'Shaft', 'SW', 'Target\nCarry']] = None
 
-    df_clubs = pd.DataFrame({'Club': clubs})
-    df_clubs[['Model', 'Loft', 'Lie', 'Length', 'Shaft', 'SW', 'Target\nCarry']] = None
-    print(df_clubs)
-    gd = GridOptionsBuilder.from_dataframe(df_clubs)
+    st.subheader('Club Specs')
+    gd = GridOptionsBuilder.from_dataframe(df_specs_entry)
     gd.configure_pagination(enabled=True)
     gd.configure_default_column(editable=True, groupable=True)
     gridoptions = gd.build()
     grid_table = AgGrid(
-        df_clubs,
+        df_specs_entry,
         gridOptions=gridoptions,
         update_mode=GridUpdateMode.SELECTION_CHANGED | GridUpdateMode.VALUE_CHANGED,
         theme="streamlit",
         columns_auto_size_mode=ColumnsAutoSizeMode.FIT_CONTENTS
     )
+
+    # st.write(df_tm_filter)
+    st.header('Trackman Data')
+    # df_sel_row = pd.DataFrame(sel_row)
+    # if not df_sel_row.empty:
+    st.write(df_tm)
+ 
+    st.subheader('Select Rows to :red[Not] Include')
+    cols = ['ShotNo', 'Player', 'Club', 'ClubSpeed', 'AttackAngle', 'ClubPath', 'BallSpeed', 'LaunchAngle',
+            'SpinRate', 'CarryDistance', 'CarryOffLine', 'ApexHeight', 'LandAngle']
+    gd = GridOptionsBuilder.from_dataframe(df_tm[cols])
+    gd.configure_pagination(enabled=True)
+    gd.configure_default_column(editable=True, groupable=True)
+    # gd.configure_column('Date', type=['customDateTimeFormat'], custom_format_string='yyyy-MM-dd HH:mm')
+    gd.configure_selection(selection_mode="multiple", use_checkbox=True)
+    gridoptions = gd.build()
+    grid_table = AgGrid(
+        df_tm,
+        gridOptions=gridoptions,
+        update_mode=GridUpdateMode.SELECTION_CHANGED | GridUpdateMode.VALUE_CHANGED,
+        theme="streamlit",
+        columns_auto_size_mode=ColumnsAutoSizeMode.FIT_ALL_COLUMNS_TO_VIEW
+    )
+    sel_row = grid_table['selected_rows']
+    
+    test_data = grid_table['data']
+    drop_rows = [row['ShotNo'] for row in sel_row]
+    df_filtered = test_data.loc[~test_data['ShotNo'].isin(drop_rows)]
 
 if df_tm is not None:
 
@@ -87,15 +117,18 @@ if df_tm is not None:
     #                             options=list(df_filtered.sort_values(by=['ClubIdx'])['Club'].unique()))
 
     player = df_tm['Player'].unique()[0]
-
     date = str(df_tm['Date'].unique()[0].strftime('%m-%d-%Y'))
-
+    location = st.session_state.location
+    ball = st.session_state.ball
+    
     # if len(club_select) > 0:
     if st.button('Create Report'):
 
+        df_specs = grid_table['data']
+
         progress_bar = st.progress(0)
 
-        pdf = make_pdf(df_tm, club_order, player, date, progress_bar)
+        pdf = make_pdf(df_tm, df_specs, club_order, player, date, location, ball, progress_bar)
 
         pdf_title = player + ' ' + str(date) + ' ' + 'Report.pdf'
         # pdf.output(pdf_title)
@@ -107,6 +140,7 @@ if df_tm is not None:
                         data=bytes(str(pdf.output(), encoding='latin1'), encoding='latin1'),
                         file_name=pdf_title,
                         mime='application/octet-stream')
+
 
 ## Command line prompts 
 # streamlit run create_dashboard.py
