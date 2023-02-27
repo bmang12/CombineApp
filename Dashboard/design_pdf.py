@@ -12,9 +12,11 @@ from data_prep import *
 from plotting_functions import *
 
 
-def make_pdf(df, club_order, player, date, progress_bar):
+def make_pdf(df, df_specs, club_order, player, date, location, ball, progress_bar):
 
-    df_avg, df_club_specs, df_specs_scatter, df_clubs, df_gap, gap_colors, gap_colors2, df_pga_comp, df_pga_plot, df_var_agg = agg_dfs(df, club_order)
+    df_avg, df_club_specs, df_specs_scatter, df_clubs, df_gap, gap_colors, gap_colors2, df_pga_comp, df_pga_plot, df_var_agg = agg_dfs(df, df_specs, club_order)
+    df_club_specs.fillna('', inplace=True)
+
 
     sns.set_palette(sns.color_palette(cc.glasbey_category10, n_colors=15))
 
@@ -29,7 +31,7 @@ def make_pdf(df, club_order, player, date, progress_bar):
     # pdf.oversized_images = "WARN"
 
     ### Title Page ###
-    pdf.set_page_background('Dashboard/Background_full.jpg')
+    pdf.set_page_background('Background_full.jpg')
     pdf.add_page('L')
 
 
@@ -46,15 +48,15 @@ def make_pdf(df, club_order, player, date, progress_bar):
     pdf.set_font('Helvetica', 'B', 30)
     pdf.cell(txt=date, w=pdf.epw, align='C')
     pdf.ln(15)
-    pdf.cell(txt='Location: Charlotte, NC', w=pdf.epw, align='C')
+    pdf.cell(txt='Location: ' + location, w=pdf.epw, align='C')
     pdf.ln(15)
-    pdf.cell(txt='Golf Ball: CSx20', w=pdf.epw, align='C')
+    pdf.cell(txt='Golf Ball: ' + ball, w=pdf.epw, align='C')
     # pdf.ln(15)
     # pdf.cell(txt='Condition', w=pdf.epw, align='C')
     # pdf.ln(15)
     # pdf.cell(txt='Golf Ball', w=pdf.epw, align='C')
 
-    pdf.set_page_background('Dashboard/Background.jpg')
+    pdf.set_page_background('Background.jpg')
     pdf.set_top_margin(3)
 
     progress_bar.progress(20)
