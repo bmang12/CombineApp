@@ -370,7 +370,7 @@ def make_pdf(df, df_specs, club_order, player, date, location, ball, progress_ba
     plt.tight_layout()
     img_buf = BytesIO()  
     plt.savefig(img_buf, dpi=200, bbox_inches='tight') 
-    pdf.image(img_buf, w=130, x=Align.L, y=current_y + 115)
+    pdf.image(img_buf, w=130, x=Align.L, y=current_y + 120)
     img_buf.close()
     plt.close('all')
 
