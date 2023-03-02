@@ -76,7 +76,7 @@ if df_tm is not None:
     gd.configure_pagination(enabled=False)
     gd.configure_default_column(editable=True)
     gridoptions = gd.build()
-    grid_table = AgGrid(
+    grid_table_specs = AgGrid(
         df_specs_entry,
         gridOptions=gridoptions,
         update_mode=GridUpdateMode.SELECTION_CHANGED | GridUpdateMode.VALUE_CHANGED,
@@ -135,7 +135,7 @@ if df_tm is not None:
     # if len(club_select) > 0:
     if st.button('Create Report'):
 
-        df_specs = grid_table['data']
+        df_specs = grid_table_specs['data']
 
         progress_bar = st.progress(0)
 
