@@ -71,7 +71,7 @@ def make_pdf(df, df_specs, club_order, player, date, location, ball, progress_ba
 
     current_y = pdf.get_y()
 
-    fig, ax = make_table(df_club_specs.round(1), size=(10, 10), scale=(1, 2.5), font=15)
+    fig, ax = make_table(df_club_specs.round(1), size=(10, 10), scale=(1, 2.5), font=13)
     plt.tight_layout()
     img_buf = BytesIO()
     plt.savefig(img_buf, dpi=200, bbox_inches='tight')
@@ -147,7 +147,7 @@ def make_pdf(df, df_specs, club_order, player, date, location, ball, progress_ba
     current_y = pdf.get_y()
 
     # gap table
-    fig, ax = make_table(df_gap[df_gap.columns[:-5]], size=(6,12), scale=(1,2.5), font=15, gap_colors=gap_colors2)
+    fig, ax = make_table(df_gap[df_gap.columns[:-5]], size=(6,12), scale=(1,2.5), font=13, gap_colors=gap_colors2)
     plt.tight_layout()
     img_buf = BytesIO()
     plt.savefig(img_buf, dpi=200, bbox_inches='tight')
@@ -179,7 +179,7 @@ def make_pdf(df, df_specs, club_order, player, date, location, ball, progress_ba
     gap_cols = ['Club','Carry\nStdev', 'Carry\nRange', 'Avg Carry\nDistance', 'Gap', 'Theo\nDist',
                 'Diff from\nActual', 'Bend\nLoft', 'Avg\nOffline', 'Bend\nLie']
 
-    fig, ax = make_table(df_gap[gap_cols], size=(7,12), scale=(1,2.5), font=15, gap_colors=gap_colors)
+    fig, ax = make_table(df_gap[gap_cols], size=(7,12), scale=(1,2.5), font=13, gap_colors=gap_colors)
     plt.tight_layout()
     img_buf = BytesIO()
     plt.savefig(img_buf, dpi=200, bbox_inches='tight')
@@ -219,7 +219,7 @@ def make_pdf(df, df_specs, club_order, player, date, location, ball, progress_ba
                                                         'min': 'Min','max': 'Max'}, axis=1).astype({'Mean':'int', 'StDev':'int', 'Min':'int', 'Max':'int'})
     df_var['Range'] = df_var['Max'] - df_var['Min']  
 
-    fig, ax = make_table(df_var, size=(6,6), scale=(1,2.5), font=15, title='Spin Rate')
+    fig, ax = make_table(df_var, size=(6,6), scale=(1,2.5), font=13, title='Spin Rate')
     plt.tight_layout()
     img_buf = BytesIO()
     plt.savefig(img_buf, dpi=200, bbox_inches='tight')
@@ -230,7 +230,7 @@ def make_pdf(df, df_specs, club_order, player, date, location, ball, progress_ba
     df_var = df_var_agg['LaunchAngle'].reset_index().rename({'mean': 'Mean', 'std': 'StDev','min': 'Min','max': 'Max'}, axis=1).round(1)
     df_var['Range'] = (df_var['Max'] - df_var['Min']).round(1)
 
-    fig, ax = make_table(df_var, size=(6,6), scale=(1,2.5), font=15, title='Launch Angle')
+    fig, ax = make_table(df_var, size=(6,6), scale=(1,2.5), font=13, title='Launch Angle')
     plt.tight_layout()
     img_buf = BytesIO()
     plt.savefig(img_buf, dpi=200, bbox_inches='tight')
@@ -261,7 +261,7 @@ def make_pdf(df, df_specs, club_order, player, date, location, ball, progress_ba
     df_var = df_var_agg['ClubSpeed'].reset_index().rename({'mean': 'Mean', 'std': 'StDev','min': 'Min','max': 'Max'}, axis=1).round(1)
     df_var['Range'] = (df_var['Max'] - df_var['Min']).round(1)    
 
-    fig, ax = make_table(df_var, size=(6,6), scale=(1,2.5), font=15, title='Club Speed')
+    fig, ax = make_table(df_var, size=(6,6), scale=(1,2.5), font=13, title='Club Speed')
     plt.tight_layout()
     img_buf = BytesIO()
     plt.savefig(img_buf, dpi=200, bbox_inches='tight')
@@ -280,7 +280,7 @@ def make_pdf(df, df_specs, club_order, player, date, location, ball, progress_ba
     df_var = df_var_agg['BallSpeed'].reset_index().rename({'mean': 'Mean', 'std': 'StDev','min': 'Min','max': 'Max'}, axis=1).round(1)
     df_var['Range'] = (df_var['Max'] - df_var['Min']).round(1)
 
-    fig, ax = make_table(df_var, size=(6,6), scale=(1,2.5), font=15, title='Ball Speed')
+    fig, ax = make_table(df_var, size=(6,6), scale=(1,2.5), font=13, title='Ball Speed')
     plt.tight_layout()
     img_buf = BytesIO()
     plt.savefig(img_buf, dpi=200, bbox_inches='tight')
@@ -311,7 +311,7 @@ def make_pdf(df, df_specs, club_order, player, date, location, ball, progress_ba
     df_var = df_var_agg['ApexHeight'].reset_index().rename({'mean': 'Mean', 'std': 'StDev','min': 'Min','max': 'Max'}, axis=1).round(1)
     df_var['Range'] = (df_var['Max'] - df_var['Min']).round(1)
 
-    fig, ax = make_table(df_var, size=(6,6), scale=(1,2.5), font=15, title='Apex Height')
+    fig, ax = make_table(df_var, size=(6,6), scale=(1,2.5), font=13, title='Apex Height')
     plt.tight_layout()
     img_buf = BytesIO()
     plt.savefig(img_buf, dpi=200, bbox_inches='tight')
@@ -330,7 +330,7 @@ def make_pdf(df, df_specs, club_order, player, date, location, ball, progress_ba
     df_var = df_var_agg['LandAngle'].reset_index().rename({'mean': 'Mean', 'std': 'StDev','min': 'Min','max': 'Max'}, axis=1).round(1)
     df_var['Range'] = (df_var['Max'] - df_var['Min']).round(1)
 
-    fig, ax = make_table(df_var, size=(6,6), scale=(1,2.5), font=15, title='Landing Angle')
+    fig, ax = make_table(df_var, size=(6,6), scale=(1,2.5), font=13, title='Landing Angle')
     plt.tight_layout()
     img_buf = BytesIO()
     plt.savefig(img_buf, dpi=200, bbox_inches='tight')
