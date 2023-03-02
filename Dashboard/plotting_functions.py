@@ -73,7 +73,7 @@ def make_table(df, size=(5, 10), title=None, scale=(1, 1.5), font=None, gap_colo
     for (row, col), cell in table.get_celld().items():
         if (row == 0) or (col == 0):
             cell.set_text_props(fontproperties=FontProperties(weight='bold'))
-            cell.set_fontsize(15)
+            cell.set_fontsize(13)
 
     if title is not None:
         ax.set_title(title, fontsize=20, fontweight='bold')
@@ -183,11 +183,11 @@ def gap_steps(df, club_order, size=(5,10), title=None):
     # plot formatting
     plt.xticks(rotation=45)
 
-    ax.set_xlabel('Club', fontsize = 17, fontweight ='bold')
-    ax.set_ylabel('Carry Distance (yds)', fontsize = 17, fontweight ='bold')
+    ax.set_xlabel('Club', fontsize = 15, fontweight ='bold')
+    ax.set_ylabel('Carry Distance (yds)', fontsize = 15, fontweight ='bold')
 
-    ax.tick_params(axis='both', which='major', labelsize=15)
-    ax.tick_params(axis='both', which='minor', labelsize=15)
+    ax.tick_params(axis='both', which='major', labelsize=13)
+    ax.tick_params(axis='both', which='minor', labelsize=13)
 
     if title is not None:
         ax.set_title(title, fontsize=20, fontweight='bold')
