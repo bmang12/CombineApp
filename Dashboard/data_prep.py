@@ -123,6 +123,8 @@ def read_data(file):
 
     df_tm = df_tm.round(2)
 
+    df_tm['Club'] = df_tm['Club'].str.replace(' ', '')
+
     clubs_all = ['Driver', '2Wood', '3Wood', '4Wood', '5Wood', '6Wood', '7Wood',
                 '8Wood', '9Wood', '1Hybrid', '2Hybrid', '3Hybrid', '4Hybrid',
                 '5Hybrid', '6Hybrid', '7Hybrid', '8Hybrid', '9Hybrid', '1Iron',
@@ -152,28 +154,7 @@ def summarize_data(df, club_order):
     df_avg = pd.DataFrame(groupby_data, columns=table_cols)
     df_avg[['Model', 'Loft', 'Lie', 'Length', 'Shaft', 'SW', 'Target\nCarry', 'Loft/Length']] = None
     df_avg = df_avg[['Club', 'Model', 'Loft', 'Lie', 'Length', 'Shaft', 'SW', 'Target\nCarry', 'Loft/Length'] + table_cols[1:]]
-    # USER ENTRY HERE
-    # df_avg['Model'] = ['Epic Speed Max LS', 'Mavrik', 'Apex Pro 19', 'Apex TCB', 'Apex TCB', 'Apex TCB', 'Apex TCB', 
-    #                    'Apex TCB', 'Apex TCB', 'Apex TCB', 'Jaws MD5 raw', 'Jaws MD5 raw', 'Jaws MD5 raw']
-    # df_avg['Loft'] = [10.5, 16.5, 20, 24, 26, 29.5, 33, 37, 41, 45, 50, 54, 60]
-    # df_avg['Lie'] = [57.8, 56.4, 59.2, 59.7, 61.5, 62, 62.5, 63, 63.5, 64, 64, 64.3, 64.4]
-    # df_avg['Length'] = [45, 42.75, 39.75, 38.5, 38, 37.5, 37, 36.5, 36, 35.75, 35.75, 35.5, 35.125]
-    # df_avg['Shaft'] = ['Tensei White CK 70TTX', 'Fuji Ventus Black 8x', 'DG X100 X7', 'DG X100 TI', 'DG X100 TI', 
-    #                    'DG X100 TI', 'DG X100 TI', 'DG X100 TI', 'DG X100 TI', 'DG X100 TI', 'DG X7', 'DG X7', 'DG X7']
-    # df_avg['SW'] = ['D5', 'D3', 'D2', 'D2', 'D2', 'D2', 'D2', 'D2', 'D2', 'D2', 'D3.5', 'D4', 'D4.5']
-    # df_avg['Model'] = 'Test Model'
-    # df_avg['Loft'] = 10
-    # df_avg['Lie'] = 60
-    # df_avg['Length'] = 37
-    # df_avg['Shaft'] = 'Test Shaft'
-    # df_avg['SW'] = 'D2'
-    # df_avg['Target\nCarry'] = ''
-    # # df_avg['Loft/Length'] = 0
-    # df_avg['Loft/Length'] = (df_avg['Loft'] / df_avg['Length'])
-    # df_avg['Loft/Length'] = [0.5822, 0.6315, 0.7333, 0.7837, 0.9315, 1.0555]
 
-    # num_cols = ['Loft/Length', 'Club\nSpeed', 'Attack\nAngle', 'Club\nPath', 'Ball\nSpeed', 'Launch\nAngle',
-    #             'Spin\nRate', 'Spin/LA', 'Carry\nDistance', 'Carry\nOffLine', 'Apex\nHeight', 'Land\nAngle']
     num_cols = ['Club\nSpeed', 'Attack\nAngle', 'Club\nPath', 'Ball\nSpeed', 'Launch\nAngle', 'Spin\nRate', 
                 'Spin/LA', 'Carry\nDistance', 'Carry\nOffLine', 'Apex\nHeight', 'Land\nAngle']
     
