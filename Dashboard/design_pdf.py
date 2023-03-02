@@ -31,7 +31,7 @@ def make_pdf(df, df_specs, club_order, player, date, location, ball, progress_ba
     # pdf.oversized_images = "WARN"
 
     ### Title Page ###
-    pdf.set_page_background('Background_full.jpg')
+    pdf.set_page_background('Dashboard/Background_full.jpg')
     pdf.add_page('L')
 
 
@@ -56,7 +56,7 @@ def make_pdf(df, df_specs, club_order, player, date, location, ball, progress_ba
     # pdf.ln(15)
     # pdf.cell(txt='Golf Ball', w=pdf.epw, align='C')
 
-    pdf.set_page_background('Background.jpg')
+    pdf.set_page_background('Dashboard/Background.jpg')
     pdf.set_top_margin(3)
 
     progress_bar.progress(20)
