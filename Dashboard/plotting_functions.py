@@ -169,7 +169,7 @@ def gap_steps(df, club_order, size=(5,10), title=None):
         plt.text(x = x,
                  y = y+3, 
                  s = '{:.0f}'.format(y),
-                 fontsize=15,
+                 fontsize=13,
                  weight='bold')
     for i in range(len(df_means)):
         if i != len(df_means) - 1:
@@ -183,14 +183,14 @@ def gap_steps(df, club_order, size=(5,10), title=None):
     # plot formatting
     plt.xticks(rotation=45)
 
-    ax.set_xlabel('Club', fontsize = 15, fontweight ='bold')
-    ax.set_ylabel('Carry Distance (yds)', fontsize = 15, fontweight ='bold')
+    ax.set_xlabel('Club', fontsize = 13, fontweight ='bold')
+    ax.set_ylabel('Carry Distance (yds)', fontsize = 13, fontweight ='bold')
 
     ax.tick_params(axis='both', which='major', labelsize=13)
     ax.tick_params(axis='both', which='minor', labelsize=13)
 
     if title is not None:
-        ax.set_title(title, fontsize=20, fontweight='bold')
+        ax.set_title(title, fontsize=17, fontweight='bold')
 
     # return plot
     return fig, ax
@@ -293,21 +293,21 @@ def scatter_conf(df, title=None, incl_mean=True, conf_ell=True, df_bounds=None, 
     else:
         xmax = max(abs(df['CarryOffLine']))
     ax.set_xlim(-xmax - 5, xmax + 5)
-    ax.set_xlabel('Carry Offline (yds)', fontsize = 17, fontweight ='bold')
+    ax.set_xlabel('Carry Offline (yds)', fontsize = 15, fontweight ='bold')
     
     plt.yticks(np.arange(round(min(df['CarryDistance']), -1), round(max(df['CarryDistance']), -1) + 20, 10))
-    ax.set_ylabel('Carry Distance (yds)', fontsize = 17, fontweight ='bold')
+    ax.set_ylabel('Carry Distance (yds)', fontsize = 15, fontweight ='bold')
 
     if incl_mean:
-        plt.figtext(0.4, 0.001, '+ indicates mean', ha='center', fontsize = 15)
+        plt.figtext(0.4, 0.001, '+ indicates mean', ha='center', fontsize = 13)
 
     plt.axvline(x=0, linestyle='--', color='grey')
 
-    ax.tick_params(axis='both', which='major', labelsize=15)
-    ax.tick_params(axis='both', which='minor', labelsize=15)
+    ax.tick_params(axis='both', which='major', labelsize=13)
+    ax.tick_params(axis='both', which='minor', labelsize=13)
 
     if title is not None:
-        ax.set_title(title, fontsize=20, fontweight ='bold')
+        ax.set_title(title, fontsize=17, fontweight ='bold')
 
     if pga:
         x = np.arange(-200, 200, 1)
@@ -332,14 +332,14 @@ def scatter_trend(df, xcol, ycol, size=(7,5), title=None):
     sns.scatterplot(data=df, x=xcol, y=ycol, hue='Club', s=75)
     plt.legend(bbox_to_anchor=(1.02, .5), loc='center left', borderaxespad=0, fontsize=13)
 
-    ax.set_xlabel(xcol.replace('\n',' '), fontsize = 17, fontweight ='bold')
-    ax.set_ylabel(ycol.replace('\n',' '), fontsize = 17, fontweight ='bold')
+    ax.set_xlabel(xcol.replace('\n',' '), fontsize = 15, fontweight ='bold')
+    ax.set_ylabel(ycol.replace('\n',' '), fontsize = 15, fontweight ='bold')
 
-    ax.tick_params(axis='both', which='major', labelsize=15)
-    ax.tick_params(axis='both', which='minor', labelsize=15)
+    ax.tick_params(axis='both', which='major', labelsize=13)
+    ax.tick_params(axis='both', which='minor', labelsize=13)
 
     if title is not None:
-        ax.set_title(title, fontsize=20, fontweight ='bold')
+        ax.set_title(title, fontsize=17, fontweight ='bold')
 
     return fig, ax
 
@@ -360,11 +360,11 @@ def barchart_bend(df, xcol, ycol, loft=True, size=(7,5), title=None):
         # plot points and add legend
         sns.barplot(data=df, x=ycol, y=xcol, palette=custom_palette)
 
-        ax.set_xlabel(ycol.replace('\n',' '), fontsize = 17, fontweight ='bold')
-        ax.set_ylabel('Diff from Actual\nShort                         Long', fontsize = 17, fontweight ='bold')
+        ax.set_xlabel(ycol.replace('\n',' '), fontsize = 15, fontweight ='bold')
+        ax.set_ylabel('Diff from Actual\nShort                         Long', fontsize = 15, fontweight ='bold')
 
-        ax.tick_params(axis='both', which='major', labelsize=15)
-        ax.tick_params(axis='both', which='minor', labelsize=15)
+        ax.tick_params(axis='both', which='major', labelsize=13)
+        ax.tick_params(axis='both', which='minor', labelsize=13)
 
         ymax = max(abs(df[xcol]))
         ax.set_ylim(-ymax - 1, ymax + 1)
@@ -379,10 +379,10 @@ def barchart_bend(df, xcol, ycol, loft=True, size=(7,5), title=None):
         for index, row in df.iterrows():
             if row['Diff from\nActual'] >= 5:
                 ax.text(index/2, row['Diff from\nActual'], round(row['Diff from\nActual'], 1),
-                        color='black', ha='center', fontsize = 15)
+                        color='black', ha='center', fontsize = 13)
             elif row['Diff from\nActual'] <= -5:
                 ax.text(index/2, row['Diff from\nActual'] - 1, round(row['Diff from\nActual'], 1),
-                        color='black', ha='center', fontsize = 15)
+                        color='black', ha='center', fontsize = 13)
 
     else: 
         custom_palette = {}
@@ -396,11 +396,11 @@ def barchart_bend(df, xcol, ycol, loft=True, size=(7,5), title=None):
         # plot points and add legend
         sns.barplot(data=df, x=xcol, y=ycol, palette=custom_palette)
 
-        ax.set_xlabel(xcol.replace('\n',' '), fontsize = 17, fontweight ='bold')
-        ax.set_ylabel(ycol.replace('\n',' '), fontsize = 17, fontweight ='bold')
+        ax.set_xlabel(xcol.replace('\n',' '), fontsize = 15, fontweight ='bold')
+        ax.set_ylabel(ycol.replace('\n',' '), fontsize = 15, fontweight ='bold')
 
-        ax.tick_params(axis='both', which='major', labelsize=15)
-        ax.tick_params(axis='both', which='minor', labelsize=15)
+        ax.tick_params(axis='both', which='major', labelsize=13)
+        ax.tick_params(axis='both', which='minor', labelsize=13)
 
         xmax = max(abs(df[xcol]))
         ax.set_xlim(-xmax - 1, xmax + 1)
@@ -408,15 +408,15 @@ def barchart_bend(df, xcol, ycol, loft=True, size=(7,5), title=None):
         plt.axvline(x=0, linestyle='--', color='grey')
 
         if title is not None:
-            ax.set_title(title, fontsize=20, fontweight ='bold')
+            ax.set_title(title, fontsize=17, fontweight ='bold')
 
         for index, row in df.iterrows():
             if row['Avg\nOffline'] >= 5:
                 ax.text(row['Avg\nOffline'] + 0.5, index/2, round(row['Avg\nOffline'], 1),
-                        color='black', ha='center', fontsize = 15)
+                        color='black', ha='center', fontsize = 13)
             elif row['Avg\nOffline'] <= -5:
                 ax.text(row['Avg\nOffline'] - 0.5, index/2, round(row['Avg\nOffline'], 1),
-                        color='black', ha='center', fontsize = 15)
+                        color='black', ha='center', fontsize = 13)
             
     return fig, ax
 
@@ -431,10 +431,10 @@ def barchart_trend(df, metric, size=(7,5), title=None, buffer=0, sigfig=1):
     sns.barplot(data=df, x='Club', y=metric, color='#1f77b4')
 
     ax.set_xlabel('Club', fontsize = 17, fontweight ='bold')
-    ax.set_ylabel(metric.replace('\n',' '), fontsize = 17, fontweight ='bold')
+    ax.set_ylabel(metric.replace('\n',' '), fontsize = 15, fontweight ='bold')
 
-    ax.tick_params(axis='both', which='major', labelsize=15)
-    ax.tick_params(axis='both', which='minor', labelsize=15)
+    ax.tick_params(axis='both', which='major', labelsize=13)
+    ax.tick_params(axis='both', which='minor', labelsize=13)
 
     ymax = max(abs(df[metric]))
 
@@ -447,7 +447,7 @@ def barchart_trend(df, metric, size=(7,5), title=None, buffer=0, sigfig=1):
     plt.xticks(rotation=45)    
 
     if title is not None:
-        ax.set_title(title, fontsize=20, fontweight ='bold')
+        ax.set_title(title, fontsize=17, fontweight ='bold')
 
     ax.bar_label(ax.containers[0], fontsize=15)
        
@@ -463,11 +463,11 @@ def barchart_grouped(df, metric, hue, size=(7,5), title=None, buffer=0, sigfig=1
     # plot points and add legend
     sns.barplot(data=df, x='Club', y=metric, hue=hue)
 
-    ax.set_xlabel('Club', fontsize = 17, fontweight ='bold')
-    ax.set_ylabel(metric.replace('\n',' '), fontsize = 17, fontweight ='bold')
+    ax.set_xlabel('Club', fontsize = 15, fontweight ='bold')
+    ax.set_ylabel(metric.replace('\n',' '), fontsize = 15, fontweight ='bold')
 
-    ax.tick_params(axis='both', which='major', labelsize=15)
-    ax.tick_params(axis='both', which='minor', labelsize=15)
+    ax.tick_params(axis='both', which='major', labelsize=13)
+    ax.tick_params(axis='both', which='minor', labelsize=13)
 
     ymax = max(abs(df[metric]))
 
@@ -480,15 +480,15 @@ def barchart_grouped(df, metric, hue, size=(7,5), title=None, buffer=0, sigfig=1
     plt.xticks(rotation=45)    
 
     if title is not None:
-        ax.set_title(title, fontsize=20, fontweight ='bold')
+        ax.set_title(title, fontsize=17, fontweight ='bold')
 
-    legend = ax.legend(fontsize=15)
+    legend = ax.legend(fontsize=13)
 
     for index, row in df.iterrows():
         if row['variable'] == 'Avg':
             diff = row['Carry Distance'] - df[(df['Club'] == row['Club']) & (df['variable'] == 'PGA Avg')]['Carry Distance']
             ax.text( index, row['Carry Distance'] + 10, round(diff.iloc[0], 1),
-                    color='black', ha='center', fontsize = 15)
+                    color='black', ha='center', fontsize = 13)
 
     # ax.bar_label(ax.containers[0], fontsize=15)
        
