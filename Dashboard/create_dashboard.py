@@ -14,7 +14,7 @@ from st_aggrid.grid_options_builder import GridOptionsBuilder
 from data_prep import *
 from plotting_functions import *
 from design_pdf import *
-from web_scrape import *
+# from web_scrape import *
 
 import base64
 
