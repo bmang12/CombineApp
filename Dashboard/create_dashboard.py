@@ -54,10 +54,10 @@ if not dis_upload:
     if uploaded_file is not None:
         df_tm, club_order = read_data(uploaded_file)
         df_filtered = df_tm.copy()
-else:
-    if tm_link != '':
-        df_tm, club_order = scrape(tm_link, progress_bar)
-        df_filtered = df_tm.copy()
+# else:
+#     if tm_link != '':
+#         df_tm, club_order = scrape(tm_link, progress_bar)
+#         df_filtered = df_tm.copy()
 
 if df_tm is not None:
 
