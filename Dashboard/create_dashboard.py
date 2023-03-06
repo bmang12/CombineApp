@@ -48,19 +48,17 @@ with col2:
     st.text_input('Enter MyTrackman Link and Press Enter', '', key='tm_link', disabled=dis_link)
     tm_link = st.session_state.tm_link
 
-    progress_bar = st.progress(0)
-
 if not dis_upload:
     if uploaded_file is not None:
         df_tm, club_order = read_data(uploaded_file)
         df_filtered = df_tm.copy()
-# else:
-#     if tm_link != '':
-#         df_tm, club_order = scrape(tm_link, progress_bar)
-#         df_filtered = df_tm.copy()
+elif not dis_link:
+    if tm_link != '':
+        with col2:
+            df_tm, club_order = scrape(tm_link)
+            df_filtered = df_tm.copy()
 
 if df_tm is not None:
-
 
     # players = df_tm['Player'].unique()
     # player_select = st.selectbox('Select Player',
