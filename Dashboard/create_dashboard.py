@@ -14,6 +14,7 @@ from st_aggrid.grid_options_builder import GridOptionsBuilder
 from data_prep import *
 from plotting_functions import *
 from design_pdf import *
+from web_scrape import *
 
 import base64
 
@@ -22,10 +23,41 @@ st.title('Combine Report')
 
 df_tm = None
 
-uploaded_file = st.file_uploader('Choose a file')
-if uploaded_file is not None:
-    df_tm, club_order = read_data(uploaded_file)
-    df_filtered = df_tm.copy()
+# Add option for link
+# player_data = scrape('https://mytrackman.com/system/dynamic-report?r=93798e80-8e0c-430e-8119-05926910e5bd&dm=c&nd=true&op=true&sro=false&do=true&to=true&vo=true&cdo=true&ot=c&ov=d&mp%5B%5D=ClubSpeed&mp%5B%5D=BallSpeed&mp%5B%5D=LaunchAngle&mp%5B%5D=SpinRate&mp%5B%5D=Carry&mp%5B%5D=Total&mp%5B%5D=Height&mp%5B%5D=LaunchDirection&mp%5B%5D=SpinAxis&mp%5B%5D=SmashFactor&u=Us&v=dispersion&sgos%5B%5D=55603568-3444-4443-a0ae-40f8ec6c1828&sgos%5B%5D=a942535c-13d0-4b3f-b53e-6e96fcceea64&sgos%5B%5D=0383d609-030b-4535-a33d-811790da1111&sgos%5B%5D=5fe556ba-0ab5-4db2-8c90-2e06fb3087a6&sgos%5B%5D=59173216-a715-4615-85d9-ae74fcc37300&sgos%5B%5D=683f1244-c1ac-4a5d-aa21-6d6660adbc4f&sgos%5B%5D=6bb8c487-5769-4792-a4a1-7f2382f68830&sgos%5B%5D=8fbc55c3-a4d4-4885-ae48-f0c1b385d84d&sgos%5B%5D=aecfa4ac-e5fa-4b3a-b912-42aae85ba61c&sgos%5B%5D=c2ae487d-6d03-41b3-bd67-9d24e75d02f7&sgos%5B%5D=22559002-1984-4cfa-a0fc-361576f61616&sgos%5B%5D=487ff424-0d27-4ed8-989a-603544011f62&sgos%5B%5D=d8fbbd80-ef1f-46dd-8af9-f776b2b2447e&sgos%5B%5D=f34d03e9-1be5-4203-9b88-0e78b2d0bd57&sgos%5B%5D=cf7247a7-4a5f-470b-9e8f-f5faee1af5d5')
+st.header('Import Data')
+
+st.radio('Input Type',
+         ['Excel', 'MyTrackman Link'],
+         key='input_type',
+         horizontal=True)
+
+if st.session_state.input_type == 'Excel':
+    dis_upload = False
+    dis_link = True
+else:
+    dis_upload = True
+    dis_link = False
+
+col1, col2 = st.columns(2)
+
+with col1:
+    uploaded_file = st.file_uploader('Choose a file', disabled=dis_upload)
+
+with col2:
+    st.text_input('Enter MyTrackman Link and Press Enter', '', key='tm_link', disabled=dis_link)
+    tm_link = st.session_state.tm_link
+
+    progress_bar = st.progress(0)
+
+if not dis_upload:
+    if uploaded_file is not None:
+        df_tm, club_order = read_data(uploaded_file)
+        df_filtered = df_tm.copy()
+else:
+    if tm_link != '':
+        df_tm, club_order = scrape(tm_link, progress_bar)
+        df_filtered = df_tm.copy()
 
 if df_tm is not None:
 
@@ -59,11 +91,11 @@ if df_tm is not None:
     # st.subheader('Raw data')
     st.header('Data Entry')
 
-    col1, col2 = st.columns(2)
-    with col1:
+    col3, col4 = st.columns(2)
+    with col3:
         st.subheader('Location')
         st.text_input(' ', '', key='location', label_visibility='collapsed')
-    with col2:
+    with col4:
         st.subheader('Golf Ball Used')
         st.text_input(' ', '', key='ball', label_visibility='collapsed')
 

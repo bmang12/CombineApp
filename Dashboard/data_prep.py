@@ -9,13 +9,13 @@ def read_data(file):
     sheets = excel.sheet_names
 
     columns = ['Date', 'Shot No', 'TMD No', 'Player', 'Club', 'Ball',
-            'Club Speed', 'Attack Angle', 'Club Path', 'Low Point',
-            'Swing Plane', 'Swing Direction', 'Dyn. Loft', 'Face Angle',
-            'Ball Speed', 'Smash Factor', 'Launch Angle', 'Launch Direction',
-            'Spin Rate', 'Spin Rate Type', 'Spin Axis', 'Dist.', 'Height',
-            'Side', 'Length', 'Side.1', 'Height.1', 'Time', 'Length.1',
-            'Side.2', 'Vert. Angle', 'Ball Speed.1', 'Flight Time',
-            'Length.2', 'Side.3', 'Use In Stat', 'Tags']
+               'Club Speed', 'Attack Angle', 'Club Path', 'Low Point',
+               'Swing Plane', 'Swing Direction', 'Dyn. Loft', 'Face Angle',
+               'Ball Speed', 'Smash Factor', 'Launch Angle', 'Launch Direction',
+               'Spin Rate', 'Spin Rate Type', 'Spin Axis', 'Dist.', 'Height',
+               'Side', 'Length', 'Side.1', 'Height.1', 'Time', 'Length.1',
+               'Side.2', 'Vert. Angle', 'Ball Speed.1', 'Flight Time',
+               'Length.2', 'Side.3', 'Use In Stat', 'Tags']
 
     if 'Report' in sheets:
         df_tm = pd.read_excel(excel, sheet_name='Report', header=1).drop(0, axis=0)
