@@ -2,10 +2,10 @@ colorcet==3.0.1
 fpdf==1.7.2
 fpdf2==2.6.1
 matplotlib==3.5.2
-numpy==1.23.1
-pandas==1.4.3
+numpy
+pandas
 seaborn==0.12.2
-streamlit==1.17.0
+streamlit
 streamlit-aggrid==0.3.3
 openpyxl==3.0.10
 seleniumbase
