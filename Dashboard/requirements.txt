@@ -8,5 +8,6 @@ seaborn==0.12.2
 streamlit
 streamlit-aggrid
 openpyxl==3.0.10
+selenium
 seleniumbase
 webdriver-manager

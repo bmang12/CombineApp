@@ -6,12 +6,9 @@ import os
 import streamlit as st
 
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
+# from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
-
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.common.by import By
 
 
 class Ball:
@@ -172,17 +169,18 @@ def show_selenium_log():
             content = f.read()
             st.code(content)
 
-def get_driver(options):
-    return webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+# def get_driver(options):
+#     return webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
 @st.cache_data(show_spinner=False)
 def scrape(url): #, _progress_bar):
     progress_bar = st.progress(0)
     
-    options = Options()
-    options.add_argument('--disable-gpu')
-    options.add_argument('--headless')
-    options.add_argument("--no-sandbox")
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument('--disable-gpu')
+    chrome_options.add_argument('--headless')
+    # chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument('--window-size=1920x1080')
 
     # options = Options()
     # options.add_argument("--headless")
@@ -193,7 +191,8 @@ def scrape(url): #, _progress_bar):
     # options.add_argument("--window-size=1920x1080")
     # options.add_argument("--disable-features=VizDisplayCompositor")
 
-    driver = get_driver(options)
+    # driver = get_driver(chrome_options)
+    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
 
     progress = 15
     progress_bar.progress(progress)
