@@ -187,8 +187,39 @@ def agg_dfs(df, df_club_specs, club_order):
 
     for col in df_club_specs.columns:
         df_club_specs[col] = df_club_specs[col].replace('None', None)
-    df_club_specs[['Loft', 'Lie', 'Length']] = df_club_specs[['Loft', 'Lie', 'Length']].astype(float)
-    df_club_specs['Loft/Length'] = df_club_specs['Loft'] / df_club_specs['Length']
+    df_club_specs['Loft_extract'] = df_club_specs['Loft'].copy()
+    df_club_specs['Length_extract'] = df_club_specs['Length'].copy()
+    
+    df_club_specs['Loft_extract'] = df_club_specs['Loft_extract'].str.replace('deg', '').str.replace('+', '').str.strip()
+    df_club_specs['Length_extract'] = df_club_specs['Length_extract'].str.strip()
+
+    for index, row in df_club_specs.iterrows():
+        if row['Loft_extract'] is not None:
+            if not row['Loft_extract'].isdigit():
+                num = ''
+                for c in row['Loft_extract']:
+                    if c.isdigit():
+                        num = num + c
+                if num == '':
+                    num = None
+                df_club_specs.loc[index, 'Loft_extract'] = num
+
+        if row['Length_extract'] is not None:
+            if not row['Length_extract'].isdigit():
+                num = ''
+                for c in row['Length_extract']:
+                    if c.isdigit():
+                        num = num + c
+                if num == '':
+                    num = None
+                df_club_specs.loc[index, 'Length_extract'] = num
+
+    df_club_specs[['Loft_extract', 'Length_extract']] = df_club_specs[['Loft_extract', 'Length_extract']].astype(float)
+    df_club_specs['Loft/Length'] = df_club_specs['Loft_extract'] / df_club_specs['Length_extract']
+
+    df_club_specs.drop(['Loft_extract', 'Length_extract'], axis=1, inplace=True)
+
+    print(df_club_specs)
 
     df_avg = df_avg[metric_cols]
     df_specs_scatter = df_avg.copy()
