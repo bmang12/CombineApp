@@ -11,4 +11,4 @@ openpyxl==3.0.10
 selenium
 seleniumbase
 webdriver-manager
-scipy
+scipy==1.8.1
