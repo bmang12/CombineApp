@@ -455,7 +455,7 @@ def make_pdf(df, df_specs, df_comp, club_order, player, date, location, ball, pr
     pdf.line(x1=0, y1=current_y+129, x2=300, y2=current_y+129)
 
     avg = df_avg[df_avg['Club'] == '9Iron']['Ball\nSpeed'].values[0]
-    fig, ax = comp_hist(df_comp, 3, 'var2', avg, conversions[0], sigfig=0, xlabel='Ball Speed', 
+    fig, ax = comp_hist(df_comp, 3, 'var2', avg, conversions[0], sigfig=1, xlabel='Ball Speed', 
                         color='#084472', title='9 Iron, Ball Speed')
     plt.tight_layout()
     img_buf = BytesIO()
@@ -465,7 +465,7 @@ def make_pdf(df, df_specs, df_comp, club_order, player, date, location, ball, pr
     plt.close('all')
 
     avg = df_avg[df_avg['Club'] == '9Iron']['Launch\nAngle'].values[0]
-    fig, ax = comp_hist(df_comp, 3, 'var3', avg, conversions[1], sigfig=0, xlabel='Launch Angle', 
+    fig, ax = comp_hist(df_comp, 3, 'var3', avg, conversions[1], sigfig=1, xlabel='Launch Angle', 
                         color='#1f77b4', title='9 Iron, Launch Angle')
     plt.tight_layout()
     img_buf = BytesIO()

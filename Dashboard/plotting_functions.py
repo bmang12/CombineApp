@@ -513,27 +513,29 @@ def comp_hist(df, club, metric, avg, conversion, size=(7,5), xlabel=None, title=
     ax.tick_params(axis='both', which='major', labelsize=15)
     ax.tick_params(axis='both', which='minor', labelsize=15)
 
-    max_count = ax.get_ylim()[1] - 3
+    max_count = ax.get_ylim()[1]
 
     if title is not None:
         ax.set_title(title, fontsize=20, fontweight ='bold')
 
     plt.axvline(avg, color='orange')
 
-    perc = stats.percentileofscore(df_plot[metric], avg)
+    perc = round(stats.percentileofscore(df_plot[metric], avg), 1)
 
     if sigfig == 1:
         plt.text(x = avg,
                  y = max_count, 
-                 s = '{:.1f}'.format(avg),
+                 s = '{:.1f}'.format(avg) + '\n' + str(perc) + 'th %ile',
                  fontsize=15,
-                 weight='bold')
+                 weight='bold',
+                 verticalalignment='top')
     elif sigfig == 0:
         plt.text(x = avg,
                  y = max_count, 
-                 s = '{:.0f}'.format(avg),
+                 s = '{:.0f}'.format(avg) + '\n' + str(perc) + 'th %ile',
                  fontsize=15,
-                 weight='bold')
+                 weight='bold',
+                 verticalalignment='top')
     else:
         plt.text(x = avg,
                  y = max_count, 
