@@ -521,7 +521,8 @@ def comp_hist(df, club, metric, avg, conversion, size=(7,5), xlabel=None, title=
     plt.axvline(avg, color='orange')
 
     perc = round(stats.percentileofscore(df_plot[metric], avg), 1)
-
+    print(perc)
+    print(stats.percentileofscore(df_plot[metric], avg))
     if sigfig == 1:
         plt.text(x = avg,
                  y = max_count, 
