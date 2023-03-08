@@ -172,7 +172,7 @@ def show_selenium_log():
 # def get_driver(options):
 #     return webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
-@st.experimental_singleton()
+@st.cache_data(show_spinner=False)
 def scrape(url): #, _progress_bar):
     progress_bar = st.progress(0)
     

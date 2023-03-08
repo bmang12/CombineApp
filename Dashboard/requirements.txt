@@ -5,9 +5,9 @@ matplotlib==3.5.2
 numpy
 pandas
 seaborn==0.12.2
-streamlit==1.17.0
+streamlit
 streamlit-aggrid
 openpyxl==3.0.10
-selenium==4.8.0
+selenium
 seleniumbase
-webdriver-manager==3.8.5
+webdriver-manager

@@ -8,6 +8,7 @@ import matplotlib.transforms as transforms
 from matplotlib import pyplot as plt
 from matplotlib.font_manager import FontProperties
 from matplotlib.patches import Ellipse
+from scipy import stats
 
 
 def loft_lie_highlight(row):    
@@ -491,5 +492,53 @@ def barchart_grouped(df, metric, hue, size=(7,5), title=None, buffer=0, sigfig=1
                     color='black', ha='center', fontsize = 13)
 
     # ax.bar_label(ax.containers[0], fontsize=15)
+       
+    return fig, ax
+
+def comp_hist(df, club, metric, avg, conversion, size=(7,5), xlabel=None, title=None, sigfig=1, color='#1f77b4'):
+
+    df_plot = df.copy()
+
+    fig, ax = plt.subplots(figsize=size)
+
+    df_plot[metric] = df_plot[metric].round(sigfig) / conversion
+    df_plot = df_plot[df_plot['var1'] == club]
+
+    # plot points and add legend
+    sns.histplot(data=df_plot, x=metric, color=color)
+
+    ax.set_xlabel(xlabel, fontsize = 17, fontweight ='bold')
+    ax.set_ylabel('Count', fontsize = 17, fontweight ='bold')
+
+    ax.tick_params(axis='both', which='major', labelsize=15)
+    ax.tick_params(axis='both', which='minor', labelsize=15)
+
+    max_count = ax.get_ylim()[1] - 3
+
+    if title is not None:
+        ax.set_title(title, fontsize=20, fontweight ='bold')
+
+    plt.axvline(avg, color='orange')
+
+    perc = stats.percentileofscore(df_plot[metric], avg)
+
+    if sigfig == 1:
+        plt.text(x = avg,
+                 y = max_count, 
+                 s = '{:.1f}'.format(avg),
+                 fontsize=15,
+                 weight='bold')
+    elif sigfig == 0:
+        plt.text(x = avg,
+                 y = max_count, 
+                 s = '{:.0f}'.format(avg),
+                 fontsize=15,
+                 weight='bold')
+    else:
+        plt.text(x = avg,
+                 y = max_count, 
+                 s = avg,
+                 fontsize=15,
+                 weight='bold')
        
     return fig, ax

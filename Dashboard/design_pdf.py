@@ -12,7 +12,7 @@ from data_prep import *
 from plotting_functions import *
 
 
-def make_pdf(df, df_specs, club_order, player, date, location, ball, progress_bar):
+def make_pdf(df, df_specs, df_comp, club_order, player, date, location, ball, progress_bar, conversions):
 
     df_avg, df_club_specs, df_specs_scatter, df_clubs, df_gap, gap_colors, gap_colors2, df_pga_comp, df_pga_plot, df_var_agg = agg_dfs(df, df_specs, club_order)
     df_club_specs.fillna('', inplace=True)
@@ -381,7 +381,109 @@ def make_pdf(df, df_specs, club_order, player, date, location, ball, progress_ba
     pdf.image(img_buf, h=pdf.eph-10, x=Align.R, y=current_y)
     img_buf.close()
     plt.close('all')
+
+    ### PGA Comp pg2###
+    pdf.add_page('L')
+
+    pdf.set_font('Helvetica', 'BU', 15)
+    pdf.set_text_color(255, 255, 255)
+    pdf.cell(txt='PGA Comparison', w=pdf.epw, align='C')
+    pdf.ln(10)
     
+    avg = df_avg[df_avg['Club'] == 'Driver']['Ball\nSpeed'].values[0]
+    fig, ax = comp_hist(df_comp, 1, 'var2', avg, conversions[0], sigfig=1, xlabel='Ball Speed', 
+                        color='#084472', title='Driver, Ball Speed')
+    plt.tight_layout()
+    img_buf = BytesIO()
+    plt.savefig(img_buf, dpi=200, bbox_inches='tight')
+    pdf.image(img_buf, w=90, x=Align.L, y=current_y)
+    img_buf.close()
+    plt.close('all')
+
+    avg = df_avg[df_avg['Club'] == 'Driver']['Launch\nAngle'].values[0]
+    fig, ax = comp_hist(df_comp, 1, 'var3', avg, conversions[1], sigfig=1, xlabel='Launch Angle', 
+                        color='#1f77b4', title='Driver, Launch Angle')
+    plt.tight_layout()
+    img_buf = BytesIO()
+    plt.savefig(img_buf, dpi=200, bbox_inches='tight')
+    pdf.image(img_buf, w=90, x=105, y=current_y)
+    img_buf.close()
+    plt.close('all')
+
+    avg = df_avg[df_avg['Club'] == 'Driver']['Spin\nRate'].values[0]
+    fig, ax = comp_hist(df_comp, 1, 'var4', avg, conversions[2], sigfig=0, xlabel='Spin Rate', 
+                        color='#5EB8FD', title='Driver, Spin Rate')
+    plt.tight_layout()
+    img_buf = BytesIO()
+    plt.savefig(img_buf, dpi=200, bbox_inches='tight')
+    pdf.image(img_buf, w=90, x=Align.R, y=current_y)
+    img_buf.close()
+    plt.close('all')
+
+    pdf.line(x1=0, y1=current_y+64, x2=300, y2=current_y+64)
+
+    avg = df_avg[df_avg['Club'] == '6Iron']['Ball\nSpeed'].values[0]
+    fig, ax = comp_hist(df_comp, 2, 'var2', avg, conversions[0], sigfig=1, xlabel='Ball Speed', 
+                        color='#084472', title='6 Iron, Ball Speed')
+    plt.tight_layout()
+    img_buf = BytesIO()
+    plt.savefig(img_buf, dpi=200, bbox_inches='tight')
+    pdf.image(img_buf, w=90, x=Align.L, y=current_y + 65)
+    img_buf.close()
+    plt.close('all')
+
+    avg = df_avg[df_avg['Club'] == '6Iron']['Launch\nAngle'].values[0]
+    fig, ax = comp_hist(df_comp, 2, 'var3', avg, conversions[1], sigfig=1, xlabel='Launch Angle', 
+                        color='#1f77b4', title='6 Iron, Launch Angle')
+    plt.tight_layout()
+    img_buf = BytesIO()
+    plt.savefig(img_buf, dpi=200, bbox_inches='tight')
+    pdf.image(img_buf, w=90, x=105, y=current_y + 65)
+    img_buf.close()
+    plt.close('all')
+
+    avg = df_avg[df_avg['Club'] == '6Iron']['Spin\nRate'].values[0]
+    fig, ax = comp_hist(df_comp, 2, 'var4', avg, conversions[2], sigfig=0, xlabel='Spin Rate', 
+                        color='#5EB8FD', title='6 Iron, Spin Rate')
+    plt.tight_layout()
+    img_buf = BytesIO()
+    plt.savefig(img_buf, dpi=200, bbox_inches='tight')
+    pdf.image(img_buf, w=90, x=Align.R, y=current_y + 65)
+    img_buf.close()
+    plt.close('all')
+
+    pdf.line(x1=0, y1=current_y+129, x2=300, y2=current_y+129)
+
+    avg = df_avg[df_avg['Club'] == '9Iron']['Ball\nSpeed'].values[0]
+    fig, ax = comp_hist(df_comp, 3, 'var2', avg, conversions[0], sigfig=0, xlabel='Ball Speed', 
+                        color='#084472', title='9 Iron, Ball Speed')
+    plt.tight_layout()
+    img_buf = BytesIO()
+    plt.savefig(img_buf, dpi=200, bbox_inches='tight')
+    pdf.image(img_buf, w=90, x=Align.L, y=current_y + 130)
+    img_buf.close()
+    plt.close('all')
+
+    avg = df_avg[df_avg['Club'] == '9Iron']['Launch\nAngle'].values[0]
+    fig, ax = comp_hist(df_comp, 3, 'var3', avg, conversions[1], sigfig=0, xlabel='Launch Angle', 
+                        color='#1f77b4', title='9 Iron, Launch Angle')
+    plt.tight_layout()
+    img_buf = BytesIO()
+    plt.savefig(img_buf, dpi=200, bbox_inches='tight')
+    pdf.image(img_buf, w=90, x=105, y=current_y + 130)
+    img_buf.close()
+    plt.close('all')
+
+    avg = df_avg[df_avg['Club'] == '9Iron']['Spin\nRate'].values[0]
+    fig, ax = comp_hist(df_comp, 3, 'var4', avg, conversions[2], sigfig=0, xlabel='Spin Rate', 
+                        color='#5EB8FD', title='9 Iron, Spin Rate')
+    plt.tight_layout()
+    img_buf = BytesIO()
+    plt.savefig(img_buf, dpi=200, bbox_inches='tight')
+    pdf.image(img_buf, w=90, x=Align.R, y=current_y + 130)
+    img_buf.close()
+    plt.close('all')
+
     progress_bar.progress(100)
 
     return pdf
