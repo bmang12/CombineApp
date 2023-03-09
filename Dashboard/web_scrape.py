@@ -252,6 +252,8 @@ def scrape(url): #, _progress_bar):
             df_new['Club'] = ball.club_name
             df_scrape = pd.concat([df_scrape, df_new])
 
+    df_scrape.to_csv('MyTMData2.csv')
+
     df_scrape['Player'] = player
     df_scrape['Date'] = date
     df_scrape['Shot No'] = list(range(1, len(df_scrape) + 1))
@@ -313,15 +315,16 @@ def scrape(url): #, _progress_bar):
     for col in columns_num:
         df_scrape[col] = pd.to_numeric(df_scrape[col])
 
-    df_scrape['SpinAxis'] = np.deg2rad(df_scrape['SpinAxis'])
+    # df_scrape['SpinAxis'] = np.deg2rad(df_scrape['SpinAxis'])
 
+    # # create roll distance variable (total distance - carry distance)
+    # df_scrape['RollDistance'] = df_scrape['Length.2'] - df_scrape['Length.1']
 
-    # create roll distance variable (total distance - carry distance)
-    df_scrape['RollDistance'] = df_scrape['Length.2'] - df_scrape['Length.1']
+    # # calculate sidespin and backspin with given equations
+    # df_scrape['Sidespin'] = np.sin(df_scrape['SpinAxis']) * df_scrape['SpinRate']
+    # df_scrape['Backspin'] = np.cos(df_scrape['SpinAxis']) * df_scrape['SpinRate']
 
-    # calculate sidespin and backspin with given equations
-    df_scrape['Sidespin'] = np.sin(df_scrape['SpinAxis']) * df_scrape['SpinRate']
-    df_scrape['Backspin'] = np.cos(df_scrape['SpinAxis']) * df_scrape['SpinRate']
+    # df_scrape['SpinAxis'] = np.rad2deg(df_scrape['SpinAxis'])
 
     # rename poorly named columns
     df_scrape.rename(columns={'Vert.Angle': 'LandAngle',
