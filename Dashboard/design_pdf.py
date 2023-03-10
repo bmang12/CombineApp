@@ -34,6 +34,7 @@ def make_pdf(df, df_specs, df_comp, club_order, player, date, location, ball, pr
     pdf.set_page_background('Dashboard/Background_full.jpg')
     pdf.add_page('L')
 
+    pdf.image('Dashboard/logo.png', w=25, x=Align.R)
 
     pdf.set_font('Helvetica', 'B', 55)
     pdf.set_text_color(255, 255, 255)
@@ -58,8 +59,6 @@ def make_pdf(df, df_specs, df_comp, club_order, player, date, location, ball, pr
 
     pdf.set_page_background('Dashboard/Background.jpg')
     pdf.set_top_margin(3)
-
-    progress_bar.progress(20)
 
     ### Club Page ### 
     pdf.add_page('L')
@@ -96,7 +95,7 @@ def make_pdf(df, df_specs, df_comp, club_order, player, date, location, ball, pr
     img_buf.close()
     plt.close('all')
 
-    progress_bar.progress(30)
+    progress_bar.progress(20)
 
     ### Ovr Avg Page ###
     pdf.add_page('L')
@@ -134,7 +133,7 @@ def make_pdf(df, df_specs, df_comp, club_order, player, date, location, ball, pr
     img_buf.close()
     plt.close('all')
 
-    progress_bar.progress(40)
+    progress_bar.progress(30)
 
     ### Gapping Page ###
     pdf.add_page('L')
@@ -163,7 +162,7 @@ def make_pdf(df, df_specs, df_comp, club_order, player, date, location, ball, pr
     img_buf.close()
     plt.close('all')
 
-    progress_bar.progress(50)
+    progress_bar.progress(40)
 
     ### Bend Rec Page ###
     pdf.add_page('L')
@@ -203,7 +202,7 @@ def make_pdf(df, df_specs, df_comp, club_order, player, date, location, ball, pr
     img_buf.close()
     plt.close('all')
 
-    progress_bar.progress(60)
+    progress_bar.progress(50)
 
     ### Variable Trends Page 1 ###
     pdf.add_page('L')
@@ -246,7 +245,7 @@ def make_pdf(df, df_specs, df_comp, club_order, player, date, location, ball, pr
     img_buf.close()
     plt.close('all')
 
-    progress_bar.progress(70)
+    progress_bar.progress(60)
 
     ### Variable Trends Page 2 ###
     pdf.add_page('L')
@@ -296,7 +295,7 @@ def make_pdf(df, df_specs, df_comp, club_order, player, date, location, ball, pr
     img_buf.close()
     plt.close('all')
 
-    progress_bar.progress(80)
+    progress_bar.progress(70)
 
     ### Variable Trends Page 3 ###
     pdf.add_page('L')
@@ -346,7 +345,7 @@ def make_pdf(df, df_specs, df_comp, club_order, player, date, location, ball, pr
     img_buf.close()
     plt.close('all')
 
-    progress_bar.progress(90)
+    progress_bar.progress(80)
 
     ### PGA Comp ###
     pdf.add_page('L')
@@ -381,6 +380,8 @@ def make_pdf(df, df_specs, df_comp, club_order, player, date, location, ball, pr
     pdf.image(img_buf, h=pdf.eph-10, x=Align.R, y=current_y)
     img_buf.close()
     plt.close('all')
+
+    progress_bar.progress(90)
 
     ### PGA Comp pg2###
     pdf.add_page('L')

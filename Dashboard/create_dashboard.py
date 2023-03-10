@@ -29,7 +29,7 @@ df_comp = pd.read_csv('Dashboard/CompHist.csv')
 st.header('Import Data')
 
 st.radio('Input Type',
-         ['Trackman Excel', 'MyTrackman Link'],
+         ['Trackman Excel', 'MyTrackman Link (not functional)'],
          key='input_type',
          horizontal=True)
 
@@ -100,7 +100,8 @@ if df_tm is not None:
 
     clubs = df_tm.sort_values('ClubIdx')['Club'].unique()
     df_specs_entry = pd.DataFrame({'Club': clubs})
-    df_specs_entry[['Model', 'Loft', 'Lie', 'Length', 'Shaft', 'SW', 'Target\nCarry']] = None
+    df_specs_entry[['Model Info', 'Loft', 'Lie', 'Length', 'Shaft', 'SW', 'Target\nCarry']] = None
+    df_specs_entry.index = df_specs_entry.index + 1
 
     st.subheader('Club Specs')
     st.write('Enter Club Specs in each cell or copy and paste from an Excel file')
@@ -116,7 +117,7 @@ if df_tm is not None:
     #     columns_auto_size_mode=ColumnsAutoSizeMode.FIT_CONTENTS
     # )
 
-    tbl_height = 35 + (len(clubs) * 35)
+    tbl_height = 37 + (len(clubs) * 35)
     df_specs = st.experimental_data_editor(df_specs_entry, height=tbl_height)
 
     # st.write(df_tm_filter)

@@ -219,8 +219,6 @@ def agg_dfs(df, df_club_specs, club_order):
 
     df_club_specs.drop(['Loft_extract', 'Length_extract'], axis=1, inplace=True)
 
-    print(df_club_specs)
-
     df_avg = df_avg[metric_cols]
     df_specs_scatter = df_avg.copy()
     df_specs_scatter['Loft/Length'] = df_club_specs['Loft/Length'] 

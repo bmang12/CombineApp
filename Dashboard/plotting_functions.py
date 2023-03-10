@@ -520,19 +520,19 @@ def comp_hist(df, club, metric, avg, conversion, size=(7,5), xlabel=None, title=
 
     plt.axvline(avg, color='orange')
 
-    perc = round(stats.percentileofscore(df_plot[metric], avg), 1)
+    perc = round(stats.percentileofscore(df_plot[metric], avg), 0)
     
     if sigfig == 1:
         plt.text(x = avg,
                  y = max_count, 
-                 s = '{:.1f}'.format(avg) + '\n' + str(perc) + 'th %ile',
+                 s = '{:.1f}'.format(avg) + '\n' + str(perc).replace('.0', '') + 'th %ile',
                  fontsize=15,
                  weight='bold',
                  verticalalignment='top')
     elif sigfig == 0:
         plt.text(x = avg,
                  y = max_count, 
-                 s = '{:.0f}'.format(avg) + '\n' + str(perc) + 'th %ile',
+                 s = '{:.0f}'.format(avg) + '\n' + str(perc).replace('.0', '') + 'th %ile',
                  fontsize=15,
                  weight='bold',
                  verticalalignment='top')
