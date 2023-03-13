@@ -179,19 +179,8 @@ def scrape(url): #, _progress_bar):
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument('--disable-gpu')
     chrome_options.add_argument('--headless')
-    # chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument('--window-size=1920x1080')
+    chrome_options.add_argument("--no-sandbox")
 
-    # options = Options()
-    # options.add_argument("--headless")
-    # options.add_argument("--no-sandbox")
-    # options.add_argument("--disable-dev-shm-usage")
-    # options.add_argument("--disable-gpu")
-    # options.add_argument("--disable-features=NetworkService")
-    # options.add_argument("--window-size=1920x1080")
-    # options.add_argument("--disable-features=VizDisplayCompositor")
-
-    # driver = get_driver(chrome_options)
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
 
     progress = 15
@@ -251,8 +240,6 @@ def scrape(url): #, _progress_bar):
             df_new = pd.DataFrame(ball.values)
             df_new['Club'] = ball.club_name
             df_scrape = pd.concat([df_scrape, df_new])
-
-    df_scrape.to_csv('MyTMData2.csv')
 
     df_scrape['Player'] = player
     df_scrape['Date'] = date

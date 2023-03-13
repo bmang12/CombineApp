@@ -126,6 +126,12 @@ if df_tm is not None:
     # if not df_sel_row.empty:
     # st.write(df_tm)
  
+    all_clubs = ['Driver', '2Wood', '3Wood', '4Wood', '5Wood', '6Wood', '7Wood', '8Wood', '9Wood', 
+                 '1Hybrid', '2Hybrid', '3Hybrid', '4Hybrid', '5Hybrid', '6Hybrid', '7Hybrid', 
+                 '8Hybrid', '9Hybrid', '1Iron', '2Iron', '3Iron', '4Iron', '5Iron', '6Iron', 
+                 '7Iron', '8Iron', '9Iron', 'PW', 'SW', 'LW', '50°Wedge', '52°Wedge', '54°Wedge', 
+                 '56°Wedge', '58°Wedge', '60°Wedge']
+
     st.subheader('Select Rows to :red[Not] Include or Change Club Type')
     cols = ['ShotNo', 'Player', 'Club', 'ClubSpeed', 'AttackAngle', 'ClubPath', 'BallSpeed', 'LaunchAngle',
             'SpinRate', 'CarryDistance', 'CarryOffLine', 'ApexHeight']
@@ -140,6 +146,8 @@ if df_tm is not None:
             gd.configure_column(col, type=['numericColumn', 'numberColumnFilter', 'customNumericFormat'], precision=1)
         if col != 'Club':
             gd.configure_column(col, editable=False)
+        if col == 'Club':
+            gd.configure_column(col, editable=True, cellEditor='agSelectCellEditor', cellEditorParams={'values': all_clubs})
     gd.configure_column('SpinRate', type=['numericColumn', 'numberColumnFilter', 'customNumericFormat'], precision=0)
     gridoptions = gd.build()
     grid_table = AgGrid(
