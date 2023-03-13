@@ -10,7 +10,6 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 
-
 class Ball:
     def __init__(self, name):
         self.name = name
@@ -169,19 +168,23 @@ def show_selenium_log():
             content = f.read()
             st.code(content)
 
-# def get_driver(options):
-#     return webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+# @st.cache_data(show_spinner=False)
+def get_driver(options):
+    return webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
 
 @st.cache_data(show_spinner=False)
 def scrape(url): #, _progress_bar):
     progress_bar = st.progress(0)
     
     chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_argument('--disable-gpu')
+    # chrome_options.add_argument('--disable-gpu')
+    # chrome_options.add_argument('--headless')
+    # chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument('--headless')
-    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument('--window-size=1920x1080')
+    chrome_options.add_argument('--disable-gpu')
 
-    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=chrome_options)
+    driver = get_driver(chrome_options)
 
     progress = 15
     progress_bar.progress(progress)
