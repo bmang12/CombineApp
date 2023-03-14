@@ -38,6 +38,7 @@ def read_data(file):
             df_tm = df_tm.convert_dtypes()
             for col in df_tm.columns:
                 if df_tm[col].dtype.kind in 'iufc':
+                    df_tm[col] = df_tm[col].astype(float)
                     if type(conversions[col]) == int or type(conversions[col]) == float:
                         df_tm[col] = df_tm[col] * conversions[col]
 
@@ -70,11 +71,11 @@ def read_data(file):
 
     df_tm = df_tm[~df_tm['Player'].isna()]
 
-    if df_tm['Club'].isnull().values.any():
-        print('Please check that all Clubs types are not null for:')
-        for player_null in df_tm[df_tm['Club'].isnull()]['Player'].unique():
-            print(player_null)
-        quit()
+    # if df_tm['Club'].isnull().values.any():
+    #     print('Please check that all Clubs types are not null for:')
+    #     for player_null in df_tm[df_tm['Club'].isnull()]['Player'].unique():
+    #         print(player_null)
+    #     quit()
 
     df_tm['Tags'] = df_tm['Tags'].fillna('')
 
@@ -211,7 +212,7 @@ def agg_dfs(df, df_club_specs, club_order):
 
     for index, row in df_club_specs.iterrows():
         if row['Loft_extract'] is not None:
-            if not row['Loft_extract'].isdigit():
+            if not row['Loft_extract'].replace('.', '', 1).isdigit():
                 num = ''
                 for c in row['Loft_extract']:
                     if c.isdigit():
@@ -221,7 +222,7 @@ def agg_dfs(df, df_club_specs, club_order):
                 df_club_specs.loc[index, 'Loft_extract'] = num
 
         if row['Length_extract'] is not None:
-            if not row['Length_extract'].isdigit():
+            if not row['Length_extract'].replace('.', '', 1).isdigit():
                 num = ''
                 for c in row['Length_extract']:
                     if c.isdigit():
@@ -276,9 +277,13 @@ def agg_dfs(df, df_club_specs, club_order):
     df_gap = pd.DataFrame(carry_gap_table, columns=gap_table_cols)
 
     ### CHANGE ###
-    df_gap['Theo\nDist'] = pd.Series([299.3, '', 269.3, '', 239.3, '', 224.3, '', 209.3, '', 194.3, '', 179.3, '', 164.3, '', 149.3, '', 134.3, '', 119.3, '', 104.3, '', 89.3])
-    df_gap['Diff from\nActual'] = (df_gap['Avg Carry\nDistance'].replace('', 99999) - df_gap['Theo\nDist'].replace('', 0)).round(1)
-    df_gap['Diff from\nActual'].replace(99999, '', inplace=True)
+    if len(df_gap) > 1:
+        df_gap['Theo\nDist'] = pd.Series([299.3, '', 269.3, '', 239.3, '', 224.3, '', 209.3, '', 194.3, '', 179.3, '', 164.3, '', 149.3, '', 134.3, '', 119.3, '', 104.3, '', 89.3])
+        df_gap['Diff from\nActual'] = (df_gap['Avg Carry\nDistance'].replace('', 99999) - df_gap['Theo\nDist'].replace('', 0)).round(1)
+        df_gap['Diff from\nActual'].replace(99999, '', inplace=True)
+    else:
+        df_gap['Theo\nDist'] = None
+        df_gap['Diff from\nActual'] = None
 
     df_gap['Bend\nLoft'] = 'OK'
     df_gap['Bend\nLie'] = 'OK'

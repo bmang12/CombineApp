@@ -312,8 +312,9 @@ def scatter_conf(df, title=None, incl_mean=True, conf_ell=True, df_bounds=None, 
 
     if pga:
         x = np.arange(-200, 200, 1)
-        y1 = (8.2305070 * x) + 65.18387938
-        y2 = (-8.2305070 * x) + 65.18387938
+        
+        y1 = (-8.2305070 * x) + 65.18387938
+        y2 = (8.2305070 * x) + 65.18387938
 
         ax.plot(x, y1, '-', color='green')
         ax.plot(x, y2, '-', color='green')
