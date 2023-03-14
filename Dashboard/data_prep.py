@@ -26,6 +26,21 @@ def read_data(file):
 
     elif 'Result' in sheets:
         df_tm = pd.read_excel(excel, sheet_name='Result', header=1).drop([0, 1, 2, 3, 4], axis=0)
+
+        if df_tm['Ball Speed'].isna().sum() == len(df_tm['Ball Speed']):
+            df_tm = pd.read_excel(excel, sheet_name='Data', header=1)
+
+            conversions = {}
+            for col in df_tm.columns:
+                conversions[col] = df_tm.loc[3, col]
+
+            df_tm.drop([0, 1, 2, 3, 4], axis=0, inplace=True)
+            df_tm = df_tm.convert_dtypes()
+            for col in df_tm.columns:
+                if df_tm[col].dtype.kind in 'iufc':
+                    if type(conversions[col]) == int or type(conversions[col]) == float:
+                        df_tm[col] = df_tm[col] * conversions[col]
+
         df_tm = df_tm.drop(df_tm.columns[12], axis=1)
         df_tm.reset_index(drop=True, inplace=True)
         df_tm['TMD No'] = np.nan
