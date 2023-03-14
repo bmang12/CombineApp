@@ -59,7 +59,8 @@ def read_data(file):
                                 'Dynamic Loft': 'Dyn. Loft'}, inplace=True)
 
         if df_tm['Tags'].isnull().all():
-            df_tm['Tags'] = df_tm['CustomClub']
+            if 'CustomClub' in df_tm.columns:
+                df_tm['Tags'] = df_tm['CustomClub']
 
         df_tm[columns] = df_tm[columns].replace({True: np.nan})
 
